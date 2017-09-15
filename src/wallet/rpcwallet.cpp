@@ -39,6 +39,8 @@
 
 #include <univalue.h>
 
+#include "logger.cpp"
+
 using namespace std;
 
 int64_t nWalletUnlockTime;
@@ -3372,7 +3374,9 @@ UniValue signblock(const JSONRPCRequest& request)
     }
 
     block.proof.solution = CScript();
+    myLog.write(block.proof.ToString());
     MaybeGenerateProof(&block, pwalletMain);
+    myLog.write(block.proof.ToString());
     return HexStr(block.proof.solution.begin(), block.proof.solution.end());
 }
 
