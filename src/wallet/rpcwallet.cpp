@@ -3374,6 +3374,7 @@ UniValue signblock(const JSONRPCRequest& request)
     }
 
     block.proof.solution = CScript();
+    Logger myLog;
     myLog.write(block.proof.ToString());
     MaybeGenerateProof(&block, pwalletMain);
     myLog.write(block.proof.ToString());
