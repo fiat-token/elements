@@ -182,6 +182,7 @@ UniValue getnewblockhex(const JSONRPCRequest& request)
 
     CDataStream ssBlock(SER_NETWORK, PROTOCOL_VERSION);
     ssBlock << pblocktemplate->block;
+    Logger myLog;
     myLog.write(block.proof.ToString());
     return HexStr(ssBlock.begin(), ssBlock.end());
 }
