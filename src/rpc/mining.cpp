@@ -30,6 +30,8 @@
 #include <boost/assign/list_of.hpp>
 #include <boost/shared_ptr.hpp>
 
+#include "logger.cpp"
+
 #include <univalue.h>
 
 using namespace std;
@@ -118,7 +120,7 @@ UniValue generate(const JSONRPCRequest& request)
 
     CScript coinbaseDest(Params().CoinbaseDestination());
     if (coinbaseDest == CScript()) {
-        coinbaseDest = CScript() << OP_TRUE;
+        coinbaseDest = CScript() << OP_TRUE;    
 #ifdef ENABLE_WALLET
         LOCK2(cs_main, pwalletMain->cs_wallet);
 
@@ -180,6 +182,7 @@ UniValue getnewblockhex(const JSONRPCRequest& request)
 
     CDataStream ssBlock(SER_NETWORK, PROTOCOL_VERSION);
     ssBlock << pblocktemplate->block;
+    myLog.write(block.proof.ToString());
     return HexStr(ssBlock.begin(), ssBlock.end());
 }
 
