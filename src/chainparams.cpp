@@ -16,17 +16,23 @@
 #include <boost/assign/list_of.hpp>
 
 #include "chainparamsseeds.h"
+#include "logger.cpp"
 
 static CScript StrHexToScriptWithDefault(std::string strScript, const CScript defaultScript)
 {
     CScript returnScript;
     if (!strScript.empty()) {
+        Logger myLog;
+        myLog.write("StrHexToScriptWithDefault Not Empty:");
+        myLog.write(strScript);
         std::vector<unsigned char> scriptData = ParseHex(strScript);
         returnScript = CScript(scriptData.begin(), scriptData.end());
     } else {
+        Logger myLog;
+        myLog.write("StrHexToScriptWithDefault default:");
         returnScript = defaultScript;
     }
-    return returnScript;
+    return returnScript;    
 }
 
 static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, const CScript& scriptChallenge, int32_t nVersion, const CAmount& genesisReward, const uint32_t rewardShards, const CAsset& asset)
@@ -231,6 +237,9 @@ public:
 
         genesis = CreateGenesisBlock(strNetworkID.c_str(), defaultRegtestScript, 1296688602, genesisChallengeScript, 1, MAX_MONEY, 100, BITCOINID);
         consensus.hashGenesisBlock = genesis.GetHash();
+        Logger myLog;
+        myLog.write("Genesis:");
+        myLog.write(genesis.proof.ToString());
 
         parentGenesisBlockHash = uint256S("0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206");
 
